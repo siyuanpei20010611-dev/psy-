@@ -1,0 +1,1336 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>裴思远 · 产品经理 / 产品运营</title>
+  <!-- Google Fonts: Noto Sans SC for CJK, Inter for Latin -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;700&family=Noto+Sans+SC:wght@300;400;500;700&display=swap" rel="stylesheet" />
+  <style>
+    /* ─── Reset & Base ─────────────────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:          #080810;
+      --bg-card:     #0e0e1a;
+      --bg-card2:    #12121f;
+      --border:      rgba(255,255,255,0.07);
+      --text:        #e8e8f0;
+      --text-muted:  #7a7a9a;
+      --accent:      #9b5de5;
+      --accent2:     #c77dff;
+      --accent-glow: rgba(155,93,229,0.35);
+      --glass-bg:    rgba(255,255,255,0.04);
+      --glass-border:rgba(255,255,255,0.12);
+      --radius:      16px;
+      --font-sans:   "Inter", "Noto Sans SC", -apple-system, BlinkMacSystemFont,
+                     "SF Pro Display", "Helvetica Neue", Arial, "PingFang SC",
+                     "Microsoft YaHei", "Noto Sans CJK SC", sans-serif;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--font-sans);
+      line-height: 1.7;
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    a { color: inherit; text-decoration: none; }
+
+    /* ─── Scrollbar ─────────────────────────────────────────────── */
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: var(--bg); }
+    ::-webkit-scrollbar-thumb {
+      background: var(--accent);
+      border-radius: 3px;
+    }
+
+    /* ─── Noise overlay ─────────────────────────────────────────── */
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 1000;
+      opacity: 0.025;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+      background-size: 256px 256px;
+    }
+
+    /* ─── Background ambient orbs ───────────────────────────────── */
+    .bg-orb {
+      position: fixed;
+      border-radius: 50%;
+      filter: blur(120px);
+      pointer-events: none;
+      z-index: 0;
+    }
+    .bg-orb-1 {
+      width: 600px; height: 600px;
+      background: radial-gradient(circle, rgba(155,93,229,0.18) 0%, transparent 70%);
+      top: -150px; right: -150px;
+      animation: drift 20s ease-in-out infinite alternate;
+    }
+    .bg-orb-2 {
+      width: 500px; height: 500px;
+      background: radial-gradient(circle, rgba(82,0,180,0.12) 0%, transparent 70%);
+      bottom: 20%; left: -100px;
+      animation: drift 26s ease-in-out infinite alternate-reverse;
+    }
+    .bg-orb-3 {
+      width: 400px; height: 400px;
+      background: radial-gradient(circle, rgba(199,125,255,0.10) 0%, transparent 70%);
+      top: 50%; right: 10%;
+      animation: drift 18s ease-in-out infinite alternate;
+    }
+    @keyframes drift {
+      from { transform: translate(0, 0) scale(1); }
+      to   { transform: translate(30px, 40px) scale(1.06); }
+    }
+
+    /* ─── NAV ───────────────────────────────────────────────────── */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 900;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 48px;
+      height: 64px;
+      backdrop-filter: blur(28px) saturate(180%);
+      -webkit-backdrop-filter: blur(28px) saturate(180%);
+      background: rgba(8,8,16,0.55);
+      border-bottom: 1px solid var(--glass-border);
+      transition: background 0.4s;
+    }
+    nav.scrolled {
+      background: rgba(8,8,16,0.82);
+    }
+    .nav-logo {
+      font-size: 1.1rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      background: linear-gradient(135deg, var(--accent2), var(--accent));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .nav-links {
+      display: flex;
+      gap: 36px;
+      list-style: none;
+    }
+    .nav-links a {
+      font-size: 0.85rem;
+      letter-spacing: 0.04em;
+      color: var(--text-muted);
+      transition: color 0.25s;
+      position: relative;
+    }
+    .nav-links a::after {
+      content: "";
+      position: absolute;
+      bottom: -3px; left: 0; right: 0;
+      height: 1px;
+      background: var(--accent);
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: transform 0.3s cubic-bezier(0.4,0,0.2,1);
+    }
+    .nav-links a:hover { color: var(--text); }
+    .nav-links a:hover::after { transform: scaleX(1); }
+
+    /* ─── HERO ──────────────────────────────────────────────────── */
+    #hero {
+      position: relative;
+      z-index: 1;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 120px 24px 80px;
+      overflow: hidden;
+    }
+
+    .hero-eyebrow {
+      font-size: 0.78rem;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--accent2);
+      margin-bottom: 24px;
+      opacity: 0;
+      animation: fadeUp 0.9s 0.2s ease forwards;
+    }
+    .hero-name {
+      font-size: clamp(3rem, 8vw, 7rem);
+      font-weight: 700;
+      letter-spacing: -0.03em;
+      line-height: 1.05;
+      background: linear-gradient(160deg, #ffffff 30%, var(--accent2) 70%, var(--accent) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      opacity: 0;
+      animation: fadeUp 0.9s 0.4s ease forwards;
+    }
+    .hero-title {
+      margin-top: 18px;
+      font-size: clamp(1rem, 2.4vw, 1.5rem);
+      font-weight: 300;
+      letter-spacing: 0.06em;
+      color: var(--text-muted);
+      opacity: 0;
+      animation: fadeUp 0.9s 0.6s ease forwards;
+    }
+    .hero-title span {
+      color: var(--accent2);
+      font-weight: 500;
+    }
+    .hero-desc {
+      max-width: 560px;
+      margin: 28px auto 0;
+      font-size: 1.05rem;
+      color: var(--text-muted);
+      line-height: 1.9;
+      opacity: 0;
+      animation: fadeUp 0.9s 0.8s ease forwards;
+    }
+    .hero-cta {
+      margin-top: 48px;
+      display: flex;
+      gap: 16px;
+      justify-content: center;
+      flex-wrap: wrap;
+      opacity: 0;
+      animation: fadeUp 0.9s 1s ease forwards;
+    }
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 12px 28px;
+      border-radius: 50px;
+      font-size: 0.9rem;
+      font-weight: 500;
+      letter-spacing: 0.03em;
+      cursor: pointer;
+      transition: transform 0.25s, box-shadow 0.25s, background 0.25s;
+    }
+    .btn-primary {
+      background: var(--accent);
+      color: #fff;
+      box-shadow: 0 0 24px var(--accent-glow);
+    }
+    .btn-primary:hover {
+      transform: translateY(-2px) scale(1.03);
+      box-shadow: 0 0 40px rgba(155,93,229,0.55);
+    }
+    .btn-ghost {
+      background: var(--glass-bg);
+      color: var(--text-muted);
+      border: 1px solid var(--glass-border);
+      backdrop-filter: blur(12px);
+    }
+    .btn-ghost:hover {
+      color: var(--text);
+      border-color: var(--accent);
+      transform: translateY(-2px);
+    }
+
+    /* hero scroll indicator */
+    .scroll-hint {
+      position: absolute;
+      bottom: 40px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+      opacity: 0;
+      animation: fadeUp 0.9s 1.4s ease forwards;
+    }
+    .scroll-hint span {
+      font-size: 0.7rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+    }
+    .scroll-line {
+      width: 1px;
+      height: 48px;
+      background: linear-gradient(to bottom, var(--accent), transparent);
+      animation: scrollPulse 1.8s ease-in-out infinite;
+    }
+    @keyframes scrollPulse {
+      0%, 100% { opacity: 0.3; transform: scaleY(1); }
+      50%       { opacity: 1;   transform: scaleY(1.15); }
+    }
+
+    /* ─── Sections shared ───────────────────────────────────────── */
+    section {
+      position: relative;
+      z-index: 1;
+      padding: 110px 0;
+    }
+    .container {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 48px;
+    }
+    .section-label {
+      font-size: 0.72rem;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 12px;
+    }
+    .section-title {
+      font-size: clamp(1.8rem, 3.5vw, 2.8rem);
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      line-height: 1.15;
+      margin-bottom: 16px;
+    }
+    .section-sub {
+      font-size: 1.05rem;
+      color: var(--text-muted);
+      max-width: 520px;
+      margin-bottom: 64px;
+    }
+
+    /* reveal animation */
+    .reveal {
+      opacity: 0;
+      transform: translateY(40px);
+      transition: opacity 0.75s cubic-bezier(0.4,0,0.2,1),
+                  transform 0.75s cubic-bezier(0.4,0,0.2,1);
+    }
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    .reveal-delay-1 { transition-delay: 0.1s; }
+    .reveal-delay-2 { transition-delay: 0.2s; }
+    .reveal-delay-3 { transition-delay: 0.3s; }
+    .reveal-delay-4 { transition-delay: 0.4s; }
+    .reveal-delay-5 { transition-delay: 0.5s; }
+
+    /* ─── Glass card ─────────────────────────────────────────────── */
+    .glass-card {
+      background: var(--glass-bg);
+      border: 1px solid var(--glass-border);
+      border-radius: var(--radius);
+      backdrop-filter: blur(20px) saturate(160%);
+      -webkit-backdrop-filter: blur(20px) saturate(160%);
+      padding: 32px;
+      transition: border-color 0.3s, box-shadow 0.3s, transform 0.3s;
+    }
+    .glass-card:hover {
+      border-color: rgba(155,93,229,0.4);
+      box-shadow: 0 0 32px rgba(155,93,229,0.12);
+      transform: translateY(-3px);
+    }
+
+    /* ─── EXPERIENCE ─────────────────────────────────────────────── */
+    #experience .timeline {
+      position: relative;
+      padding-left: 28px;
+      display: flex;
+      flex-direction: column;
+      gap: 40px;
+    }
+    #experience .timeline::before {
+      content: "";
+      position: absolute;
+      left: 0; top: 12px; bottom: 12px;
+      width: 2px;
+      background: linear-gradient(to bottom, var(--accent), transparent);
+    }
+    .exp-item {
+      position: relative;
+    }
+    .exp-item::before {
+      content: "";
+      position: absolute;
+      left: -34px;
+      top: 14px;
+      width: 12px; height: 12px;
+      border-radius: 50%;
+      background: var(--accent);
+      box-shadow: 0 0 10px var(--accent-glow);
+    }
+    .exp-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      align-items: center;
+      margin-bottom: 8px;
+    }
+    .exp-company {
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: var(--text);
+    }
+    .exp-role {
+      font-size: 0.85rem;
+      color: var(--accent2);
+      background: rgba(155,93,229,0.15);
+      padding: 2px 10px;
+      border-radius: 20px;
+    }
+    .exp-period {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      margin-left: auto;
+    }
+    .exp-desc {
+      font-size: 0.92rem;
+      color: var(--text-muted);
+      line-height: 1.8;
+    }
+    .exp-tags {
+      margin-top: 12px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+    .tag {
+      font-size: 0.73rem;
+      letter-spacing: 0.06em;
+      background: rgba(255,255,255,0.05);
+      border: 1px solid var(--border);
+      color: var(--text-muted);
+      padding: 3px 10px;
+      border-radius: 20px;
+      transition: border-color 0.25s, color 0.25s;
+    }
+    .tag:hover {
+      border-color: var(--accent);
+      color: var(--accent2);
+    }
+
+    /* ─── EDUCATION ──────────────────────────────────────────────── */
+    #education .edu-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 24px;
+    }
+    .edu-card {
+      padding: 28px 32px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .edu-badge {
+      width: 44px; height: 44px;
+      border-radius: 12px;
+      background: linear-gradient(135deg, var(--accent), #4a0080);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.3rem;
+      margin-bottom: 4px;
+    }
+    .edu-school {
+      font-size: 1.05rem;
+      font-weight: 700;
+    }
+    .edu-major {
+      font-size: 0.88rem;
+      color: var(--accent2);
+    }
+    .edu-period {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+    }
+    .edu-note {
+      font-size: 0.87rem;
+      color: var(--text-muted);
+      line-height: 1.7;
+    }
+
+    /* ─── SKILLS ─────────────────────────────────────────────────── */
+    #skills .skills-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 20px;
+    }
+    .skill-group {
+      padding: 28px;
+    }
+    .skill-group-title {
+      font-size: 0.82rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--accent2);
+      margin-bottom: 18px;
+    }
+    .skill-item {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      margin-bottom: 14px;
+    }
+    .skill-name {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.88rem;
+      color: var(--text);
+    }
+    .skill-bar-bg {
+      height: 4px;
+      background: rgba(255,255,255,0.06);
+      border-radius: 2px;
+      overflow: hidden;
+    }
+    .skill-bar {
+      height: 100%;
+      border-radius: 2px;
+      background: linear-gradient(90deg, var(--accent), var(--accent2));
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: transform 1s cubic-bezier(0.4,0,0.2,1);
+    }
+    .skill-bar.animated {
+      transform: scaleX(1);
+    }
+
+    /* ─── BENTO BOX (Projects) ───────────────────────────────────── */
+    #projects {
+      background: radial-gradient(ellipse 80% 60% at 50% 0%, rgba(155,93,229,0.07) 0%, transparent 70%);
+    }
+    .bento-grid {
+      display: grid;
+      grid-template-columns: repeat(12, 1fr);
+      grid-auto-rows: 80px;
+      gap: 16px;
+    }
+    /* card sizes */
+    .bento-card { grid-column: span 4; grid-row: span 4; }
+    .bento-card.wide  { grid-column: span 8; grid-row: span 4; }
+    .bento-card.tall  { grid-column: span 4; grid-row: span 5; }
+    .bento-card.hero-card { grid-column: span 8; grid-row: span 3; }
+    .bento-card.small { grid-column: span 4; grid-row: span 3; }
+
+    .bento-inner {
+      height: 100%;
+      padding: 28px;
+      border-radius: 20px;
+      background: var(--bg-card);
+      border: 1px solid rgba(155,93,229,0.15);
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      transition: border-color 0.35s, box-shadow 0.35s, transform 0.35s;
+
+      /* breathing neon glow */
+      box-shadow:
+        0 0 0 1px rgba(155,93,229,0.05) inset,
+        0 0 20px rgba(155,93,229,0.0);
+      animation: bentoBreath 4s ease-in-out infinite;
+    }
+    .bento-inner:hover {
+      border-color: rgba(155,93,229,0.55);
+      box-shadow:
+        0 0 0 1px rgba(155,93,229,0.12) inset,
+        0 0 40px rgba(155,93,229,0.25),
+        0 20px 60px rgba(0,0,0,0.4);
+      transform: translateY(-4px) scale(1.012);
+      animation-play-state: paused;
+    }
+    @keyframes bentoBreath {
+      0%, 100% {
+        box-shadow:
+          0 0 0 1px rgba(155,93,229,0.04) inset,
+          0 0 12px rgba(155,93,229,0.04);
+      }
+      50% {
+        box-shadow:
+          0 0 0 1px rgba(155,93,229,0.10) inset,
+          0 0 28px rgba(155,93,229,0.13);
+      }
+    }
+    /* stagger breathing animation */
+    .bento-card:nth-child(2) .bento-inner { animation-delay: 0.7s; }
+    .bento-card:nth-child(3) .bento-inner { animation-delay: 1.4s; }
+    .bento-card:nth-child(4) .bento-inner { animation-delay: 2.1s; }
+    .bento-card:nth-child(5) .bento-inner { animation-delay: 0.35s; }
+    .bento-card:nth-child(6) .bento-inner { animation-delay: 1.1s; }
+
+    /* card background accents */
+    .bento-inner::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: var(--card-accent, none);
+      opacity: 0.06;
+      pointer-events: none;
+    }
+    .bento-inner::after {
+      content: "";
+      position: absolute;
+      top: -40px; right: -40px;
+      width: 180px; height: 180px;
+      border-radius: 50%;
+      background: radial-gradient(circle, var(--accent) 0%, transparent 70%);
+      opacity: 0.07;
+      pointer-events: none;
+      transition: opacity 0.35s, transform 0.35s;
+    }
+    .bento-inner:hover::after {
+      opacity: 0.18;
+      transform: scale(1.3);
+    }
+
+    .bento-tag {
+      font-size: 0.65rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--accent2);
+      background: rgba(155,93,229,0.12);
+      border: 1px solid rgba(155,93,229,0.25);
+      padding: 3px 10px;
+      border-radius: 20px;
+      display: inline-block;
+      margin-bottom: 10px;
+      width: fit-content;
+    }
+    .bento-title {
+      font-size: 1.1rem;
+      font-weight: 700;
+      line-height: 1.3;
+      margin-bottom: 8px;
+    }
+    .bento-desc {
+      font-size: 0.82rem;
+      color: var(--text-muted);
+      line-height: 1.7;
+    }
+    .bento-stat {
+      margin-top: auto;
+      padding-top: 16px;
+      display: flex;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+    .stat-item {
+      display: flex;
+      flex-direction: column;
+    }
+    .stat-num {
+      font-size: 1.4rem;
+      font-weight: 700;
+      background: linear-gradient(135deg, var(--accent2), var(--accent));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .stat-label {
+      font-size: 0.72rem;
+      color: var(--text-muted);
+      letter-spacing: 0.06em;
+    }
+
+    /* pill list inside bento */
+    .bento-pills {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-top: 10px;
+    }
+    .bento-pill {
+      font-size: 0.7rem;
+      padding: 3px 10px;
+      border-radius: 20px;
+      background: rgba(155,93,229,0.1);
+      border: 1px solid rgba(155,93,229,0.2);
+      color: var(--accent2);
+    }
+
+    /* big number card */
+    .bento-big-num {
+      font-size: clamp(2.5rem, 5vw, 4rem);
+      font-weight: 800;
+      background: linear-gradient(135deg, #fff 30%, var(--accent2));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      line-height: 1;
+      margin-bottom: 6px;
+    }
+    .bento-subtitle {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      line-height: 1.5;
+    }
+
+    /* icon accent */
+    .bento-icon {
+      font-size: 2.2rem;
+      margin-bottom: 8px;
+    }
+
+    /* ─── DIVIDER ─────────────────────────────────────────────────── */
+    .divider {
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--border), transparent);
+      margin: 0 48px;
+    }
+
+    /* ─── CONTACT / FOOTER ───────────────────────────────────────── */
+    #contact {
+      text-align: center;
+      padding: 100px 0 80px;
+    }
+    .contact-glass {
+      display: inline-block;
+      padding: 56px 64px;
+      border-radius: 28px;
+      background: var(--glass-bg);
+      border: 1px solid var(--glass-border);
+      backdrop-filter: blur(24px);
+      -webkit-backdrop-filter: blur(24px);
+      max-width: 560px;
+      width: 100%;
+    }
+    .contact-glass p {
+      font-size: 0.95rem;
+      color: var(--text-muted);
+      margin-bottom: 32px;
+      line-height: 1.8;
+    }
+    .contact-links {
+      display: flex;
+      justify-content: center;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+    .contact-link {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 22px;
+      border-radius: 50px;
+      font-size: 0.85rem;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid var(--glass-border);
+      color: var(--text-muted);
+      transition: all 0.25s;
+    }
+    .contact-link:hover {
+      border-color: var(--accent);
+      color: var(--accent2);
+      box-shadow: 0 0 16px var(--accent-glow);
+      transform: translateY(-2px);
+    }
+
+    footer {
+      text-align: center;
+      padding: 32px;
+      font-size: 0.78rem;
+      color: var(--text-muted);
+      letter-spacing: 0.06em;
+      border-top: 1px solid var(--border);
+    }
+
+    /* ─── Keyframes ──────────────────────────────────────────────── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(24px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ─── Responsive ─────────────────────────────────────────────── */
+    @media (max-width: 900px) {
+      nav { padding: 0 24px; }
+      .nav-links { gap: 20px; }
+      .container { padding: 0 24px; }
+      .bento-grid { grid-template-columns: repeat(6, 1fr); }
+      .bento-card { grid-column: span 6; grid-row: span 4; }
+      .bento-card.wide { grid-column: span 6; }
+      .bento-card.hero-card { grid-column: span 6; grid-row: span 3; }
+      .bento-card.small { grid-column: span 6; grid-row: span 3; }
+      .bento-card.tall { grid-column: span 6; grid-row: span 4; }
+    }
+    @media (max-width: 600px) {
+      nav { padding: 0 16px; }
+      .nav-links { display: none; }
+      .container { padding: 0 16px; }
+      section { padding: 80px 0; }
+      .contact-glass { padding: 36px 24px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- Ambient background orbs -->
+<div class="bg-orb bg-orb-1"></div>
+<div class="bg-orb bg-orb-2"></div>
+<div class="bg-orb bg-orb-3"></div>
+
+<!-- ─── NAV ─────────────────────────────────────────────────────────── -->
+<nav id="main-nav">
+  <div class="nav-logo">PSY</div>
+  <ul class="nav-links">
+    <li><a href="#experience">经历</a></li>
+    <li><a href="#education">学历</a></li>
+    <li><a href="#skills">能力</a></li>
+    <li><a href="#projects">项目</a></li>
+    <li><a href="#contact">联系</a></li>
+  </ul>
+</nav>
+
+<!-- ─── HERO ─────────────────────────────────────────────────────────── -->
+<section id="hero">
+  <p class="hero-eyebrow">Product Manager · Product Operations</p>
+  <h1 class="hero-name">裴思远</h1>
+  <p class="hero-title">
+    <span>以数据驱动决策</span> · 以用户洞察定义产品
+  </p>
+  <p class="hero-desc">
+    专注于 B2C 互联网产品与量化策略运营，拥有从 0 到 1 的产品设计经验，
+    擅长需求挖掘、数据建模与跨团队协作，致力于打造真正有价值的数字体验。
+  </p>
+  <div class="hero-cta">
+    <a class="btn btn-primary" href="#projects">查看项目</a>
+    <a class="btn btn-ghost" href="#contact">联系我</a>
+  </div>
+  <div class="scroll-hint">
+    <span>Scroll</span>
+    <div class="scroll-line"></div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ─── EXPERIENCE ─────────────────────────────────────────────────── -->
+<section id="experience">
+  <div class="container">
+    <p class="section-label reveal">Work Experience</p>
+    <h2 class="section-title reveal reveal-delay-1">工作经历</h2>
+    <p class="section-sub reveal reveal-delay-2">
+      多段量化策略与互联网产品岗位实习，积累了丰富的数据驱动产品思维。
+    </p>
+
+    <div class="timeline">
+
+      <div class="exp-item glass-card reveal reveal-delay-1">
+        <div class="exp-meta">
+          <span class="exp-company">某头部量化私募基金</span>
+          <span class="exp-role">量化策略研究实习生</span>
+          <span class="exp-period">2024.06 — 2024.09</span>
+        </div>
+        <p class="exp-desc">
+          参与 T+0 高频策略的回测优化，使用 Python/Pandas 处理 Level-2 逐笔数据，
+          改进因子挖掘流程，策略夏普比率提升 <strong style="color:var(--accent2)">0.38</strong>；
+          独立完成日频因子报告自动化系统，节省团队每日 2 小时的人工作业。
+        </p>
+        <div class="exp-tags">
+          <span class="tag">Python</span>
+          <span class="tag">因子挖掘</span>
+          <span class="tag">回测框架</span>
+          <span class="tag">Level-2 数据</span>
+          <span class="tag">策略优化</span>
+        </div>
+      </div>
+
+      <div class="exp-item glass-card reveal reveal-delay-2">
+        <div class="exp-meta">
+          <span class="exp-company">某互联网科技公司</span>
+          <span class="exp-role">产品运营实习生</span>
+          <span class="exp-period">2023.10 — 2024.02</span>
+        </div>
+        <p class="exp-desc">
+          负责核心功能模块的 A/B 测试设计与数据分析，推动 3 项页面改版，
+          用户点击率提升 <strong style="color:var(--accent2)">17%</strong>；
+          主导用户调研访谈（50+ 样本），输出 PRD 文档并落地两项新功能迭代；
+          协同技术、设计、运营完成敏捷开发周期管理。
+        </p>
+        <div class="exp-tags">
+          <span class="tag">A/B 测试</span>
+          <span class="tag">用户调研</span>
+          <span class="tag">PRD 撰写</span>
+          <span class="tag">数据分析</span>
+          <span class="tag">敏捷迭代</span>
+        </div>
+      </div>
+
+      <div class="exp-item glass-card reveal reveal-delay-3">
+        <div class="exp-meta">
+          <span class="exp-company">校园科技创业工作室</span>
+          <span class="exp-role">产品负责人</span>
+          <span class="exp-period">2022.09 — 2023.06</span>
+        </div>
+        <p class="exp-desc">
+          主导团队 App（校园服务平台）从 0 到 1 的产品规划，完成竞品分析、
+          信息架构设计与原型输出；上线后 3 个月内注册用户达 <strong style="color:var(--accent2)">4,000+</strong>，
+          月活留存率 <strong style="color:var(--accent2)">62%</strong>。
+        </p>
+        <div class="exp-tags">
+          <span class="tag">0 → 1</span>
+          <span class="tag">竞品分析</span>
+          <span class="tag">原型设计</span>
+          <span class="tag">Figma</span>
+          <span class="tag">产品规划</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ─── EDUCATION ──────────────────────────────────────────────────── -->
+<section id="education">
+  <div class="container">
+    <p class="section-label reveal">Education</p>
+    <h2 class="section-title reveal reveal-delay-1">学历背景</h2>
+    <p class="section-sub reveal reveal-delay-2">扎实的数理基础与商业洞察并行。</p>
+
+    <div class="edu-grid">
+
+      <div class="edu-card glass-card reveal reveal-delay-1">
+        <div class="edu-badge">🏫</div>
+        <div class="edu-school">某 985 高校</div>
+        <div class="edu-major">金融工程 / 辅修计算机科学</div>
+        <div class="edu-period">2020.09 — 2024.06 · 本科</div>
+        <div class="edu-note">
+          GPA 3.82 / 4.0，专业前 10%；获国家奖学金、优秀毕业生荣誉；
+          毕业论文方向：机器学习在量化选股中的应用。
+        </div>
+      </div>
+
+      <div class="edu-card glass-card reveal reveal-delay-2">
+        <div class="edu-badge">📜</div>
+        <div class="edu-school">证书与认证</div>
+        <div class="edu-major">专业资质积累</div>
+        <div class="edu-period">持续学习中</div>
+        <div class="edu-note">
+          CFA Level II 在读 · 证券从业资格证 · 
+          Google Analytics 认证 · Python 数据分析专项课程（Coursera）
+        </div>
+      </div>
+
+      <div class="edu-card glass-card reveal reveal-delay-3">
+        <div class="edu-badge">🌏</div>
+        <div class="edu-school">语言能力</div>
+        <div class="edu-major">国际化沟通</div>
+        <div class="edu-period">多语言背景</div>
+        <div class="edu-note">
+          普通话（母语）· 英语 CET-6（612分）· 具备英文商业文档撰写及
+          跨国团队协作能力。
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ─── SKILLS ─────────────────────────────────────────────────────── -->
+<section id="skills">
+  <div class="container">
+    <p class="section-label reveal">Capabilities</p>
+    <h2 class="section-title reveal reveal-delay-1">个人能力</h2>
+    <p class="section-sub reveal reveal-delay-2">
+      硬技能与软实力的复合型产品人。
+    </p>
+
+    <div class="skills-grid">
+
+      <div class="skill-group glass-card reveal reveal-delay-1">
+        <div class="skill-group-title">产品能力</div>
+        <div class="skill-item">
+          <div class="skill-name"><span>需求分析与 PRD</span><span>92%</span></div>
+          <div class="skill-bar-bg"><div class="skill-bar" style="--w:0.92"></div></div>
+        </div>
+        <div class="skill-item">
+          <div class="skill-name"><span>用户研究 / 访谈</span><span>88%</span></div>
+          <div class="skill-bar-bg"><div class="skill-bar" style="--w:0.88"></div></div>
+        </div>
+        <div class="skill-item">
+          <div class="skill-name"><span>原型设计（Figma）</span><span>85%</span></div>
+          <div class="skill-bar-bg"><div class="skill-bar" style="--w:0.85"></div></div>
+        </div>
+        <div class="skill-item">
+          <div class="skill-name"><span>A/B 测试设计</span><span>90%</span></div>
+          <div class="skill-bar-bg"><div class="skill-bar" style="--w:0.90"></div></div>
+        </div>
+      </div>
+
+      <div class="skill-group glass-card reveal reveal-delay-2">
+        <div class="skill-group-title">数据 & 量化</div>
+        <div class="skill-item">
+          <div class="skill-name"><span>Python / Pandas</span><span>88%</span></div>
+          <div class="skill-bar-bg"><div class="skill-bar" style="--w:0.88"></div></div>
+        </div>
+        <div class="skill-item">
+          <div class="skill-name"><span>SQL 数据分析</span><span>82%</span></div>
+          <div class="skill-bar-bg"><div class="skill-bar" style="--w:0.82"></div></div>
+        </div>
+        <div class="skill-item">
+          <div class="skill-name"><span>量化回测框架</span><span>80%</span></div>
+          <div class="skill-bar-bg"><div class="skill-bar" style="--w:0.80"></div></div>
+        </div>
+        <div class="skill-item">
+          <div class="skill-name"><span>Excel / Tableau</span><span>86%</span></div>
+          <div class="skill-bar-bg"><div class="skill-bar" style="--w:0.86"></div></div>
+        </div>
+      </div>
+
+      <div class="skill-group glass-card reveal reveal-delay-3">
+        <div class="skill-group-title">运营 & 增长</div>
+        <div class="skill-item">
+          <div class="skill-name"><span>增长策略设计</span><span>84%</span></div>
+          <div class="skill-bar-bg"><div class="skill-bar" style="--w:0.84"></div></div>
+        </div>
+        <div class="skill-item">
+          <div class="skill-name"><span>内容运营</span><span>78%</span></div>
+          <div class="skill-bar-bg"><div class="skill-bar" style="--w:0.78"></div></div>
+        </div>
+        <div class="skill-item">
+          <div class="skill-name"><span>用户分层 / 标签体系</span><span>82%</span></div>
+          <div class="skill-bar-bg"><div class="skill-bar" style="--w:0.82"></div></div>
+        </div>
+        <div class="skill-item">
+          <div class="skill-name"><span>渠道投放 / ROI 分析</span><span>76%</span></div>
+          <div class="skill-bar-bg"><div class="skill-bar" style="--w:0.76"></div></div>
+        </div>
+      </div>
+
+      <div class="skill-group glass-card reveal reveal-delay-4">
+        <div class="skill-group-title">软实力</div>
+        <div class="skill-item">
+          <div class="skill-name"><span>跨团队沟通协作</span><span>94%</span></div>
+          <div class="skill-bar-bg"><div class="skill-bar" style="--w:0.94"></div></div>
+        </div>
+        <div class="skill-item">
+          <div class="skill-name"><span>结构化思维与表达</span><span>91%</span></div>
+          <div class="skill-bar-bg"><div class="skill-bar" style="--w:0.91"></div></div>
+        </div>
+        <div class="skill-item">
+          <div class="skill-name"><span>项目管理</span><span>85%</span></div>
+          <div class="skill-bar-bg"><div class="skill-bar" style="--w:0.85"></div></div>
+        </div>
+        <div class="skill-item">
+          <div class="skill-name"><span>快速学习与适应</span><span>96%</span></div>
+          <div class="skill-bar-bg"><div class="skill-bar" style="--w:0.96"></div></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ─── PROJECTS / BENTO ───────────────────────────────────────────── -->
+<section id="projects">
+  <div class="container">
+    <p class="section-label reveal">Projects &amp; Internships</p>
+    <h2 class="section-title reveal reveal-delay-1">量化实习 &amp; 项目</h2>
+    <p class="section-sub reveal reveal-delay-2">
+      每一个卡片都是一段经过验证的数字故事。
+    </p>
+
+    <div class="bento-grid reveal reveal-delay-1">
+
+      <!-- Card 1 · Wide · Quant internship highlight -->
+      <div class="bento-card wide">
+        <div class="bento-inner" style="--card-accent: linear-gradient(135deg,#9b5de5,#4a0080)">
+          <div style="margin-bottom:auto">
+            <div class="bento-tag">量化策略 · 实习核心项目</div>
+            <div class="bento-title">T+0 高频策略优化 &amp; 因子体系重构</div>
+            <div class="bento-desc">
+              基于 Level-2 逐笔成交数据，独立完成 20+ 个短周期价量因子的挖掘与筛选，
+              使用 IC/IR 分析框架评估因子有效性，结合 Lasso 回归进行因子降维；
+              回测周期 2021-2023，年化收益提升 <strong style="color:var(--accent2)">11.4%</strong>，
+              最大回撤降低 <strong style="color:var(--accent2)">8.7%</strong>。
+            </div>
+            <div class="bento-pills">
+              <span class="bento-pill">Python</span>
+              <span class="bento-pill">Backtrader</span>
+              <span class="bento-pill">Level-2 数据</span>
+              <span class="bento-pill">Lasso 回归</span>
+              <span class="bento-pill">IC/IR 分析</span>
+            </div>
+          </div>
+          <div class="bento-stat">
+            <div class="stat-item">
+              <span class="stat-num">+11.4%</span>
+              <span class="stat-label">年化收益提升</span>
+            </div>
+            <div class="stat-item">
+              <span class="stat-num">-8.7%</span>
+              <span class="stat-label">最大回撤降低</span>
+            </div>
+            <div class="stat-item">
+              <span class="stat-num">+0.38</span>
+              <span class="stat-label">夏普比率增益</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Card 2 · Small · Automation -->
+      <div class="bento-card small">
+        <div class="bento-inner">
+          <div class="bento-icon">⚙️</div>
+          <div class="bento-tag">自动化工具</div>
+          <div class="bento-title">日频因子报告自动化系统</div>
+          <div class="bento-desc">
+            Python + Jinja2 模板引擎，实现每日因子监控报告自动生成与邮件推送，节省团队每日 2h 人工作业。
+          </div>
+        </div>
+      </div>
+
+      <!-- Card 3 · Tall · Product 0→1 -->
+      <div class="bento-card tall">
+        <div class="bento-inner" style="--card-accent: linear-gradient(135deg,#c77dff,#6a0dad)">
+          <div style="margin-bottom: auto">
+            <div class="bento-tag">0 → 1 产品</div>
+            <div class="bento-title">校园服务 App —— 完整产品周期</div>
+            <div class="bento-desc">
+              独立完成竞品分析（15 款产品）、核心流程原型设计（Figma）、
+              技术需求拆解与迭代排期；上线后 3 个月内冷启动至 4,000+ 注册用户，
+              月活留存 62%。
+            </div>
+            <div class="bento-pills">
+              <span class="bento-pill">Figma</span>
+              <span class="bento-pill">竞品分析</span>
+              <span class="bento-pill">PRD</span>
+              <span class="bento-pill">迭代管理</span>
+            </div>
+          </div>
+          <div class="bento-stat">
+            <div class="stat-item">
+              <span class="stat-num">4k+</span>
+              <span class="stat-label">注册用户</span>
+            </div>
+            <div class="stat-item">
+              <span class="stat-num">62%</span>
+              <span class="stat-label">月活留存</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Card 4 · Regular · A/B Test -->
+      <div class="bento-card">
+        <div class="bento-inner">
+          <div class="bento-tag">产品运营</div>
+          <div class="bento-title">页面 A/B 测试 &amp; 转化率提升</div>
+          <div class="bento-desc">
+            主导 3 个核心功能模块改版的 A/B 测试设计与效果评估，用户点击率平均提升 <strong style="color:var(--accent2)">17%</strong>。
+          </div>
+          <div class="bento-stat">
+            <div class="stat-item">
+              <span class="stat-num">+17%</span>
+              <span class="stat-label">CTR 提升</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Card 5 · Regular · User Research -->
+      <div class="bento-card">
+        <div class="bento-inner">
+          <div class="bento-tag">用户研究</div>
+          <div class="bento-title">深度访谈 &amp; 需求挖掘</div>
+          <div class="bento-desc">
+            设计用户访谈脚本，完成 50+ 用户深度访谈，提炼核心痛点并输出用户旅程地图，直接驱动两项功能上线。
+          </div>
+          <div class="bento-pills">
+            <span class="bento-pill">用户访谈</span>
+            <span class="bento-pill">旅程地图</span>
+            <span class="bento-pill">需求文档</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Card 6 · Regular · Quant Model -->
+      <div class="bento-card">
+        <div class="bento-inner">
+          <div class="bento-icon">📈</div>
+          <div class="bento-tag">量化建模</div>
+          <div class="bento-title">ML 选股模型</div>
+          <div class="bento-desc">
+            毕业论文：基于随机森林 + XGBoost 的 A 股月度选股模型，
+            样本外年化 Alpha ≈ 9.2%。
+          </div>
+          <div class="bento-pills">
+            <span class="bento-pill">XGBoost</span>
+            <span class="bento-pill">随机森林</span>
+            <span class="bento-pill">Alpha 策略</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Card 7 · Wide bottom · Growth strategy -->
+      <div class="bento-card wide">
+        <div class="bento-inner" style="--card-accent: linear-gradient(90deg,#9b5de5,#4a0080)">
+          <div style="margin-bottom: auto">
+            <div class="bento-tag">增长策略</div>
+            <div class="bento-title">用户分层运营体系搭建</div>
+            <div class="bento-desc">
+              基于 RFM 模型对平台 20 万+用户进行分层，设计差异化触达策略（Push / 邮件 / 优惠券），
+              核心用户 7 日复访率提升 <strong style="color:var(--accent2)">23%</strong>，
+              沉默用户唤回率 <strong style="color:var(--accent2)">8.4%</strong>。
+            </div>
+          </div>
+          <div class="bento-stat">
+            <div class="stat-item">
+              <span class="stat-num">20w+</span>
+              <span class="stat-label">覆盖用户</span>
+            </div>
+            <div class="stat-item">
+              <span class="stat-num">+23%</span>
+              <span class="stat-label">复访率提升</span>
+            </div>
+            <div class="stat-item">
+              <span class="stat-num">8.4%</span>
+              <span class="stat-label">沉默用户唤回</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- /bento-grid -->
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ─── CONTACT ────────────────────────────────────────────────────── -->
+<section id="contact">
+  <div class="container">
+    <p class="section-label reveal">Get In Touch</p>
+    <h2 class="section-title reveal reveal-delay-1" style="margin-bottom:40px">期待与你合作</h2>
+    <div class="contact-glass reveal reveal-delay-2">
+      <p>
+        无论是产品新机会、量化项目合作，还是一次简单的交流，
+        都欢迎随时联系。期待与优秀的团队共同创造价值。
+      </p>
+      <div class="contact-links">
+        <a class="contact-link" href="mailto:your@email.com">
+          <span>✉</span> Email
+        </a>
+        <a class="contact-link" href="#">
+          <span>💼</span> LinkedIn
+        </a>
+        <a class="contact-link" href="#">
+          <span>📄</span> 查看简历
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── FOOTER ─────────────────────────────────────────────────────── -->
+<footer>
+  <span>© 2024 裴思远 · 产品经理 / 产品运营</span>
+  &nbsp;·&nbsp;
+  <span style="color:var(--accent)">Built with precision &amp; passion</span>
+</footer>
+
+<!-- ─── SCRIPTS ────────────────────────────────────────────────────── -->
+<script>
+  /* ── Nav scroll state ─────────────────────────────────────────── */
+  const nav = document.getElementById('main-nav');
+  window.addEventListener('scroll', () => {
+    nav.classList.toggle('scrolled', window.scrollY > 40);
+  }, { passive: true });
+
+  /* ── Scroll reveal ────────────────────────────────────────────── */
+  const revealObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+        revealObserver.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+
+  document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
+
+  /* ── Skill bar animation ──────────────────────────────────────── */
+  const barObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.querySelectorAll('.skill-bar').forEach(bar => {
+          const w = bar.style.getPropertyValue('--w');
+          bar.style.transform = `scaleX(${w})`;
+          bar.classList.add('animated');
+        });
+        barObserver.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.25 });
+
+  document.querySelectorAll('.skill-group').forEach(g => barObserver.observe(g));
+
+  /* ── Parallax hero ────────────────────────────────────────────── */
+  const heroSection = document.getElementById('hero');
+  window.addEventListener('scroll', () => {
+    const y = window.scrollY;
+    if (y < window.innerHeight * 1.5) {
+      const heroName = heroSection.querySelector('.hero-name');
+      const heroDesc = heroSection.querySelector('.hero-desc');
+      heroName.style.transform = `translateY(${y * 0.18}px)`;
+      heroDesc.style.transform = `translateY(${y * 0.09}px)`;
+      heroSection.style.opacity = Math.max(0, 1 - y / (window.innerHeight * 0.8));
+    }
+  }, { passive: true });
+
+  /* ── Smooth active nav link ───────────────────────────────────── */
+  const sections = document.querySelectorAll('section[id]');
+  const navLinks = document.querySelectorAll('.nav-links a');
+
+  const sectionObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        navLinks.forEach(link => {
+          link.style.color = link.getAttribute('href') === '#' + entry.target.id
+            ? 'var(--text)' : '';
+        });
+      }
+    });
+  }, { rootMargin: '-40% 0px -40% 0px' });
+
+  sections.forEach(s => sectionObserver.observe(s));
+
+  /* ── Tilt effect on bento cards ───────────────────────────────── */
+  document.querySelectorAll('.bento-inner').forEach(card => {
+    card.addEventListener('mousemove', (e) => {
+      const rect = card.getBoundingClientRect();
+      const cx = rect.left + rect.width / 2;
+      const cy = rect.top + rect.height / 2;
+      const dx = (e.clientX - cx) / (rect.width / 2);
+      const dy = (e.clientY - cy) / (rect.height / 2);
+      card.style.transform = `
+        translateY(-4px) scale(1.012)
+        rotateX(${-dy * 5}deg) rotateY(${dx * 5}deg)
+      `;
+      card.style.transition = 'border-color 0.35s, box-shadow 0.35s';
+    });
+    card.addEventListener('mouseleave', () => {
+      card.style.transform = '';
+      card.style.transition = 'border-color 0.35s, box-shadow 0.35s, transform 0.5s';
+    });
+  });
+</script>
+</body>
+</html>
