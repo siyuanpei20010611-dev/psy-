@@ -1,0 +1,268 @@
+{\rtf1\ansi\ansicpg936\cocoartf2761
+\cocoatextscaling0\cocoaplatform0{\fonttbl\f0\fswiss\fcharset0 Helvetica;}
+{\colortbl;\red255\green255\blue255;}
+{\*\expandedcolortbl;;}
+\paperw11900\paperh16840\margl1440\margr1440\vieww11520\viewh8400\viewkind0
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+
+\f0\fs24 \cf0 <!DOCTYPE html>\
+<html lang="zh-CN">\
+<head>\
+    <meta charset="UTF-8">\
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">\
+    [cite_start]<title>\uc0\u35060 \u24605 \u23195  [cite: 3] - \u20010 \u20154 \u20316 \u21697 \u38598 </title>\
+    <style>\
+        :root \{\
+            --bg-color: #0a0a0c;\
+            --text-main: #f5f5f7;\
+            --text-muted: #86868b;\
+            --neon-purple: rgba(138, 43, 226, 0.6);\
+            --neon-purple-dim: rgba(138, 43, 226, 0.15);\
+            --glass-bg: rgba(255, 255, 255, 0.03);\
+            --glass-border: rgba(255, 255, 255, 0.08);\
+        \}\
+\
+        * \{\
+            margin: 0;\
+            padding: 0;\
+            box-sizing: border-box;\
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;\
+        \}\
+\
+        body \{\
+            background-color: var(--bg-color);\
+            color: var(--text-main);\
+            overflow-x: hidden;\
+            background-image: radial-gradient(circle at 50% 0%, #1a1a24 0%, var(--bg-color) 70%);\
+            background-attachment: fixed; /* \uc0\u35270 \u24046 \u28378 \u21160 \u22522 \u30784  */\
+        \}\
+\
+        /* \uc0\u28082 \u24577 \u29627 \u29827 \u26448 \u36136 \u29305 \u25928  */\
+        .glass \{\
+            background: var(--glass-bg);\
+            backdrop-filter: blur(20px);\
+            -webkit-backdrop-filter: blur(20px);\
+            border: 1px solid var(--glass-border);\
+            border-radius: 24px;\
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);\
+        \}\
+\
+        section \{\
+            padding: 100px 5%;\
+            max-width: 1200px;\
+            margin: 0 auto;\
+            opacity: 0;\
+            transform: translateY(30px);\
+            transition: all 0.8s cubic-bezier(0.25, 1, 0.5, 1);\
+        \}\
+\
+        section.visible \{\
+            opacity: 1;\
+            transform: translateY(0);\
+        \}\
+\
+        h1, h2, h3 \{\
+            font-weight: 600;\
+            letter-spacing: 0.5px;\
+        \}\
+\
+        h2 \{\
+            font-size: 2.5rem;\
+            margin-bottom: 40px;\
+            text-align: center;\
+            background: linear-gradient(90deg, #fff, #86868b);\
+            -webkit-background-clip: text;\
+            -webkit-text-fill-color: transparent;\
+        \}\
+\
+        /* \uc0\u39318 \u23631 \u35270 \u24046  Hero Section */\
+        .hero \{\
+            height: 100vh;\
+            display: flex;\
+            flex-direction: column;\
+            justify-content: center;\
+            align-items: center;\
+            text-align: center;\
+            position: relative;\
+        \}\
+\
+        .hero h1 \{\
+            font-size: 4rem;\
+            margin-bottom: 20px;\
+        \}\
+\
+        .hero p \{\
+            font-size: 1.5rem;\
+            color: var(--text-muted);\
+            max-width: 600px;\
+            line-height: 1.6;\
+        \}\
+\
+        /* \uc0\u21628 \u21560 \u28783 \u21160 \u30011  */\
+        @keyframes neonBreathe \{\
+            0% \{ box-shadow: 0 0 15px var(--neon-purple-dim), inset 0 0 10px var(--neon-purple-dim); border-color: rgba(138, 43, 226, 0.2); \}\
+            50% \{ box-shadow: 0 0 30px var(--neon-purple), inset 0 0 15px rgba(138,43,226,0.3); border-color: rgba(138, 43, 226, 0.5); \}\
+            100% \{ box-shadow: 0 0 15px var(--neon-purple-dim), inset 0 0 10px var(--neon-purple-dim); border-color: rgba(138, 43, 226, 0.2); \}\
+        \}\
+\
+        /* \uc0\u20415 \u24403 \u30418 \u24067 \u23616  Bento Box */\
+        .bento-grid \{\
+            display: grid;\
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));\
+            gap: 24px;\
+            grid-auto-rows: minmax(200px, auto);\
+        \}\
+\
+        .bento-card \{\
+            padding: 30px;\
+            display: flex;\
+            flex-direction: column;\
+            justify-content: space-between;\
+            transition: transform 0.4s cubic-bezier(0.25, 1, 0.5, 1);\
+            position: relative;\
+            overflow: hidden;\
+        \}\
+\
+        .bento-card:hover \{\
+            transform: translateY(-8px) scale(1.02);\
+        \}\
+\
+        /* \uc0\u37325 \u28857 \u39033 \u30446 \u30340 \u36187 \u21338 \u26379 \u20811 \u39640 \u32423 \u24863  */\
+        .cyberpunk-focus \{\
+            grid-column: span 2;\
+            animation: neonBreathe 4s infinite ease-in-out;\
+            background: linear-gradient(145deg, rgba(20,20,25,0.8) 0%, rgba(10,10,15,0.9) 100%);\
+        \}\
+\
+        @media (max-width: 768px) \{\
+            .cyberpunk-focus \{ grid-column: span 1; \}\
+            .hero h1 \{ font-size: 2.8rem; \}\
+        \}\
+\
+        .tag \{\
+            display: inline-block;\
+            padding: 6px 12px;\
+            border-radius: 20px;\
+            font-size: 0.8rem;\
+            background: rgba(255,255,255,0.1);\
+            margin-bottom: 15px;\
+            margin-right: 10px;\
+        \}\
+\
+        .timeline-item \{\
+            margin-bottom: 30px;\
+            padding-left: 20px;\
+            border-left: 2px solid var(--glass-border);\
+        \}\
+    </style>\
+</head>\
+<body>\
+\
+    <section class="hero visible" id="parallax-hero">\
+        [cite_start]<h1>\uc0\u35060 \u24605 \u23195  [cite: 3]</h1>\
+        <p>\uc0\u32858 \u28966 \u20135 \u21697 \u21270 \u33829 \u36816 \u19982 \u21830 \u19994 \u22686 \u38271  | \u20855 \u22791 \u31995 \u32479 \u21270 \u39033 \u30446 \u32479 \u31609 \u19982 \u36328 \u37096 \u38376 \u21327 \u21516 \u33021 \u21147 </p>\
+        <div style="margin-top: 40px; color: var(--text-muted);">\
+            [cite_start]\uc0\u37038 \u31665 : siyuanpei2001@163.com [cite: 6] | [cite_start]\u38597 \u24605  7.0 (\u20855 \u22791 \u21452 \u35821 \u21830 \u21153 \u25299 \u23637 \u33021 \u21147 ) [cite: 16]\
+        </div>\
+    </section>\
+\
+    <section>\
+        <h2>\uc0\u26680 \u24515 \u33021 \u21147 \u30697 \u38453 </h2>\
+        <div class="bento-grid">\
+            <div class="bento-card glass">\
+                [cite_start]<h3>AIGC \uc0\u25552 \u25928 \u19982 \u19994 \u21153 \u24314 \u27169  [cite: 8]</h3>\
+                [cite_start]<p style="margin-top: 15px; color: var(--text-muted);">\uc0\u25645 \u24314  Nano-banana \u31561 \u35270 \u35273 \u24037 \u20316 \u27969  [cite: 9][cite_start]\u65292 \u36879 \u36807 \u26631 \u20934 SOP\u20026 \u39321 \u28207 M+\u31561 \u39033 \u30446 \u32553 \u30701 50%\u32791 \u26102  [cite: 9, 33][cite_start]\u65292 \u22823 \u24133 \u38477 \u20302 \u36328 \u37096 \u38376 \u21327 \u20316 \u27807 \u36890 \u25104 \u26412  [cite: 32]\u12290 </p>\
+            </div>\
+            <div class="bento-card glass">\
+                [cite_start]<h3>\uc0\u31169 \u22495 \u22686 \u38271 \u19982 \u21830 \u19994 \u36716 \u21270  [cite: 12]</h3>\
+                [cite_start]<p style="margin-top: 15px; color: var(--text-muted);">\uc0\u20027 \u23548 \u35835 \u20070 \u31038 \u32676 \u20174 0\u21040 1\u20919 \u21551 \u21160  [cite: 43][cite_start]\u65292 \u25645 \u24314 400+\u20154 \u39640 \u31896 \u24615 \u31169 \u22495 \u27744  [cite: 14][cite_start]\u65292 \u21046 \u23450 \u29992 \u25143 \u28608 \u21169 \u26426 \u21046 \u24314 \u31435 \u26497 \u39640 \u20449 \u20219 \u24230 \u65292 \u39537 \u21160 \u20174 \u20869 \u23481 \u21040 \u30005 \u21830 \u30340 \u39640 \u25928 \u38381 \u29615  [cite: 43]\u12290 </p>\
+            </div>\
+            <div class="bento-card glass">\
+                [cite_start]<h3>\uc0\u25991 \u26053 \u20869 \u23481 \u27785 \u28024 \u24335 \u31574 \u21010  [cite: 30, 31]</h3>\
+                [cite_start]<p style="margin-top: 15px; color: var(--text-muted);">\uc0\u25552 \u28860 \u23439 \u22823 \u21465 \u20107 \u32972 \u26223 \u19979 \u30340 \u24773 \u32490 \u20215 \u20540  [cite: 44][cite_start]\u65292 \u23558 \u25991 \u29486 \u36716 \u21270 \u20026 \u19975 \u20154 \u32423 \u22823 \u20247 \u21521 \u23548 \u35272 \u20869 \u23481  [cite: 31][cite_start]\u65292 \u39537 \u21160 UGC\u25171 \u21345 \u35010 \u21464 \u65292 \u25552 \u21319 \u31038 \u20132 \u20256 \u25773 \u29575  [cite: 31]\u12290 </p>\
+            </div>\
+        </div>\
+    </section>\
+\
+    <section>\
+        <h2>\uc0\u21830 \u19994 \u33853 \u22320 \u19982 \u39033 \u30446 \u32479 \u31609 </h2>\
+        <div class="bento-grid">\
+            <div class="bento-card glass cyberpunk-focus">\
+                <span class="tag">\uc0\u21830 \u19994 \u21464 \u29616 </span><span class="tag">\u32479 \u31609 \u31649 \u29702 </span>\
+                [cite_start]<h3>\uc0\u12300 \u26381 \u39280 +\u26223 \u21306 \u12301 \u27785 \u28024 \u24335 \u25991 \u26053 \u21830 \u19994 \u21270 \u25805 \u30424  [cite: 66]</h3>\
+                <p style="margin-top: 15px; color: var(--text-muted);">\
+                    [cite_start]<strong>\uc0\u19994 \u21153 \u27934 \u23519 \u65306 </strong> \u23545 300\u21517 Z\u19990 \u20195 \u28040 \u36153 \u32773 \u36827 \u34892 \u35843 \u30740 \u19982 \u38144 \u21806 \u25968 \u25454 \u29615 \u27604 \u20998 \u26512 \u65292 \u31934 \u20934 \u21246 \u21202 \u29992 \u25143 \u30011 \u20687 \u21450 \u22686 \u38271 \u26354 \u32447  [cite: 67]\u12290 <br><br>\
+                    [cite_start]<strong>\uc0\u33853 \u22320 \u25191 \u34892 \u65306 </strong> \u29301 \u22836 \u25512 \u36827 \u27785 \u28024 \u24335 \u25991 \u26053 \u27169 \u24335 \u30340 \u21830 \u19994 \u21270 \u36827 \u31243 \u65292 \u20110 \u20004 \u22823 \u26680 \u24515 \u26223 \u21306 \u25104 \u21151 \u35797 \u28857 \u65292 \u36890 \u36807 \u20135 \u21697 \u21019 \u26032 \u31574 \u30053 \u65292 \u26174 \u33879 \u25552 \u21319 \u31532 \u19977 \u23395 \u24230 \u38376 \u31080 \u33829 \u25910 \u36716 \u21270  [cite: 68]\u12290 \
+                </p>\
+            </div>\
+            \
+            <div class="bento-card glass">\
+                <span class="tag">\uc0\u36328 \u37096 \u38376 \u21327 \u21516 </span>\
+                [cite_start]<h3>\uc0\u22823 \u28286 \u21306 \'93\u23725 \u21335 \u25991 \u21270 \'94\u39033 \u30446 \u24211 \u25645 \u24314  [cite: 59]</h3>\
+                [cite_start]<p style="margin-top: 15px; color: var(--text-muted);">\uc0\u28145 \u20837 \u35843 \u30740 \u38750 \u36951 \u25991 \u21270 \u20256 \u25215  [cite: 60][cite_start]\u65292 \u39640 \u25928 \u21327 \u35843 \u22810 \u26041 \u19987 \u23478 \u25490 \u26399 \u19982 \u36164 \u28304 \u35843 \u24230  [cite: 61][cite_start]\u65292 \u36127 \u36131 \u21518 \u26399 \u30693 \u35782 \u36164 \u20135 \u30340 \u31995 \u32479 \u21270 \u25972 \u29702 \u19982 \u27785 \u28096  [cite: 61]\u12290 </p>\
+            </div>\
+\
+            <div class="bento-card glass">\
+                <span class="tag">\uc0\u25968 \u25454 \u39537 \u21160 </span>\
+                [cite_start]<h3>\uc0\u24179 \u21488 \u20869 \u23481 \u25968 \u25454 \u35843 \u20248 \u19982 \u29992 \u25143 \u30041 \u23384  [cite: 48]</h3>\
+                [cite_start]<p style="margin-top: 15px; color: var(--text-muted);">\uc0\u36816 \u29992 \'93\u20914 \u31361 \u21069 \u32622 \'94\u31574 \u30053 \u37325 \u26500 \u20869 \u23481 \u33410 \u22863 \u65292 \u38477 \u20302 \u21069 \u26399 \u36339 \u20986 \u29575 \u65292 \u25104 \u21151 \u23558 \u35270 \u39057 \u24179 \u22343 \u25773 \u25918 \u26102 \u38271 \u24310 \u38271 5\u31186 \u65292 \u26174 \u33879 \u25552 \u21319 \u25972 \u20307 \u23436 \u25773 \u29575 \u26680 \u24515 \u25351 \u26631  [cite: 48]\u12290 </p>\
+            </div>\
+        </div>\
+    </section>\
+\
+    <section>\
+        <h2>\uc0\u24037 \u20316 \u19982 \u23454 \u20064 \u32463 \u21382 </h2>\
+        <div class="glass" style="padding: 40px;">\
+            <div class="timeline-item">\
+                [cite_start]<h3>\uc0\u28246 \u21271 \u30465 \u21338 \u29289 \u39302  / \u39321 \u28207 M+\u21338 \u29289 \u39302  [cite: 29, 33]</h3>\
+                [cite_start]<p style="color: var(--text-muted); margin-bottom: 10px;">\uc0\u23637 \u35272 \u31574 \u21010 \u19982 \u33829 \u36816  [cite: 30, 34] | [cite_start]2024.12 - 2025.09 [cite: 28, 33]</p>\
+                [cite_start]<p>\uc0\u25645 \u24314 \u22522 \u20110 AI\u30340 \u24037 \u20316 \u27969 \u24182 \u25935 \u25463 \u36845 \u20195 10\u20313 \u29256 \u35270 \u35273 \u26041 \u26696  [cite: 32, 35][cite_start]\u65292 \u39537 \u21160 \u31038 \u20132 \u23186 \u20307 \u26680 \u24515 \u25351 \u26631 \u65288 \u21333 \u31687 \u20114 \u21160 \u37327 \u65289 \u31361 \u30772 1k+ [cite: 35]\u12290 </p>\
+            </div>\
+            <div class="timeline-item">\
+                [cite_start]<h3>\uc0\u23398 \u32780 \u24605  [cite: 36]</h3>\
+                [cite_start]<p style="color: var(--text-muted); margin-bottom: 10px;">\uc0\u23458 \u25143 \u20851 \u31995 \u32500 \u25252 \u19982 \u38656 \u27714 \u32479 \u31609  [cite: 37] | [cite_start]2024.03 - 2024.07 [cite: 36]</p>\
+                [cite_start]<p>\uc0\u32479 \u31609 \u23398 \u29983 \u12289 \u23478 \u38271 \u19982 \u26657 \u21306 \u19977 \u26041 \u35785 \u27714 \u65292 \u24314 \u31435 \u39640 \u25928 \u21453 \u39304 \u38381 \u29615  [cite: 37][cite_start]\u12290 \u36816 \u29992 \u24046 \u24322 \u21270 \u27807 \u36890 \u31574 \u30053 \u36827 \u34892 \u28145 \u24230 \u23458 \u24773 \u32500 \u25252 \u65292 \u39537 \u21160 \u39640 \u36798 70%\u30340 \u35838 \u31243 \u22797 \u36141 \u29575  [cite: 39]\u12290 </p>\
+            </div>\
+        </div>\
+    </section>\
+\
+    <section>\
+        <h2>\uc0\u25945 \u32946 \u32972 \u26223 </h2>\
+        <div class="bento-grid">\
+            <div class="bento-card glass">\
+                [cite_start]<h3>\uc0\u39321 \u28207 \u22823 \u23398  [cite: 19]</h3>\
+                [cite_start]<p style="color: var(--text-muted);">\uc0\u21382 \u21490 \u23398  (\u30805 \u22763 ) [cite: 23] | [cite_start]2024.07 - 2025.12 [cite: 18]</p>\
+            </div>\
+            <div class="bento-card glass">\
+                [cite_start]<h3>\uc0\u38485 \u35199 \u24072 \u33539 \u22823 \u23398  [cite: 22]</h3>\
+                [cite_start]<p style="color: var(--text-muted);">\uc0\u24191 \u25773 \u30005 \u35270 \u32534 \u23548  (\u26412 \u31185 ) [cite: 24] | [cite_start]2019.09 - 2023.06 [cite: 25]</p>\
+            </div>\
+        </div>\
+    </section>\
+\
+    <script>\
+        // \uc0\u28378 \u21160 \u35270 \u24046 \u19982 \u24179 \u28369 \u28014 \u29616 \u20132 \u20114 \u29305 \u25928 \
+        const sections = document.querySelectorAll('section');\
+        const hero = document.getElementById('parallax-hero');\
+\
+        const observer = new IntersectionObserver((entries) => \{\
+            entries.forEach(entry => \{\
+                if (entry.isIntersecting) \{\
+                    entry.target.classList.add('visible');\
+                \}\
+            \});\
+        \}, \{ threshold: 0.1 \});\
+\
+        sections.forEach(sec => observer.observe(sec));\
+\
+        // \uc0\u31616 \u21333 \u30340 \u40736 \u26631 \u31227 \u21160 \u35270 \u24046 \u25928 \u26524 \
+        document.addEventListener('mousemove', (e) => \{\
+            const x = (window.innerWidth - e.pageX * 2) / 90;\
+            const y = (window.innerHeight - e.pageY * 2) / 90;\
+            if(hero) \{\
+                hero.style.transform = `translate($\{x\}px, $\{y\}px)`;\
+            \}\
+        \});\
+    </script>\
+</body>\
+</html>}
